@@ -1,0 +1,41 @@
+{
+  "schema": "pixel-bastion/resource-catalog/v1",
+  "description": "유저 제공 원본 도트 리소스 보관. 아직 게임 기능, 건설 버튼, AI 행동, 자원 생산에 연결하지 않음.",
+  "status": "library-only",
+  "version": "resource-batch-2026-11-12",
+  "entries": [
+    {
+      "id": "worker_miner_01",
+      "label": "광부",
+      "category": "special-worker",
+      "source": "assets/reserve/miner_worker_source.png",
+      "pixelWidth": 1448,
+      "pixelHeight": 1086,
+      "animation": "source sprite sheet (4 directions × 4 frames; slicing not configured)",
+      "gameplayEnabled": false,
+      "jobRules": null
+    },
+    {
+      "id": "building_mine_01",
+      "label": "광산",
+      "category": "building",
+      "source": "assets/reserve/mine_entrance_source.png",
+      "pixelWidth": 1274,
+      "pixelHeight": 1234,
+      "gameplayEnabled": false,
+      "footprintTiles": null,
+      "productionRules": null
+    },
+    {
+      "id": "building_farm_01",
+      "label": "밭",
+      "category": "building",
+      "source": "assets/reserve/farm_plot_source.png",
+      "pixelWidth": 1275,
+      "pixelHeight": 1234,
+      "gameplayEnabled": false,
+      "footprintTiles": null,
+      "productionRules": null
+    }
+  ]
+}
