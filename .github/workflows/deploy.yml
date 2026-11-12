@@ -65,6 +65,9 @@ jobs:
           if [ -f overlays/patch_v036.py ]; then
             python3 overlays/patch_v036.py _site
           fi
+          if [ -f overlays/patch_v037.py ]; then
+            python3 overlays/patch_v037.py _site
+          fi
           # Decode optional directly committed source sprites (newer variants).
           if [ -d overlays/npc-assets ]; then
             mkdir -p _site/assets/npc/NPC_MALE2
@@ -89,7 +92,14 @@ jobs:
           test -s _site/assets/npc/NPC_MALE3/male3_emotes_6poses.png
           test -s _site/assets/npc/NPC_FEMALE3/female3_walk_4dir_4frames.png
           test -s _site/assets/npc/NPC_FEMALE3/female3_emotes_6poses.png
-          grep -q "PIXEL BASTION v0.3.6" _site/game.js
+          test -s _site/assets/reserve/mine_entrance_source.png
+          test -s _site/assets/reserve/farm_plot_source.png
+          test -s _site/assets/reserve/miner_worker_source.png
+          grep -q "PIXEL BASTION v0.3.7" _site/game.js
+          grep -q "ECON_PRODUCTION_INTERVAL = 10" _site/game.js
+          grep -q "ECON_FOOD_INTERVAL = 60" _site/game.js
+          grep -q 'id="mineBuildBtn"' _site/index.html
+          grep -q 'id="foodValue"' _site/index.html
           grep -q "NPC_INTERACTIONS_ENABLED = false" _site/game.js
           grep -q "NPC_AUTO_CHAT_ENABLED = false" _site/game.js
           node --check _site/game.js
