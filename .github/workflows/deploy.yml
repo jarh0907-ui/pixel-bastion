@@ -52,6 +52,18 @@ jobs:
               cp -a "$dir"/. _site/
             fi
           fi
+          # Preserve the original v0.3.2 ZIPs; apply future source updates during packaging.
+          if [ -f overlays/patch_v033.py ]; then
+            python3 overlays/patch_v033.py _site
+          fi
+          # Decode optional directly committed source sprites (newer variants).
+          if [ -d overlays/npc-assets ]; then
+            mkdir -p _site/assets/npc/NPC_MALE2
+            for input in overlays/npc-assets/*.webp.b64; do
+              [ -f "$input" ] || continue
+              base64 -d "$input" > "_site/assets/npc/NPC_MALE2/$(basename "$input" .b64)"
+            done
+          fi
           for f in             index.html             game.js             style.css             assets/npc/NPC_MALE/male_walk_4dir_3frames.png             assets/npc/NPC_FEMALE/female_walk_4dir_4frames.png
           do
             if [ ! -s "_site/$f" ]; then
