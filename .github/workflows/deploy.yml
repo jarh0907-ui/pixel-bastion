@@ -71,6 +71,9 @@ jobs:
           if [ -f overlays/patch_v038.py ]; then
             python3 overlays/patch_v038.py _site
           fi
+          if [ -f overlays/patch_v039.py ]; then
+            python3 overlays/patch_v039.py _site
+          fi
           # Decode optional directly committed source sprites (newer variants).
           if [ -d overlays/npc-assets ]; then
             mkdir -p _site/assets/npc/NPC_MALE2
@@ -98,7 +101,7 @@ jobs:
           test -s _site/assets/reserve/mine_entrance_source.png
           test -s _site/assets/reserve/farm_plot_source.png
           test -s _site/assets/reserve/miner_worker_source.png
-          grep -q "PIXEL BASTION v0.3.8" _site/game.js
+          grep -q "PIXEL BASTION v0.3.9" _site/game.js
           grep -q "ECON_PRODUCTION_INTERVAL = 10" _site/game.js
           grep -q "ECON_FOOD_INTERVAL = 60" _site/game.js
           grep -q "ECON_WIDTH_TILES = 3, ECON_HEIGHT_TILES = 2" _site/game.js
@@ -107,6 +110,14 @@ jobs:
           grep -q 'id="foodValue"' _site/index.html
           grep -q "NPC_INTERACTIONS_ENABLED = false" _site/game.js
           grep -q "NPC_AUTO_CHAT_ENABLED = false" _site/game.js
+          # Regression: both farm and mine employees enter the hidden/producing state.
+          grep -q "if(v.jobEntryTime<=0){v.jobPhase='inside';v.mode='idle';" _site/game.js
+          if grep -q "jobPhase=b.kind==='mine'?'inside':'working'" _site/game.js; then
+            echo "::error::Old farm worker visibility bug remains."
+            exit 1
+          fi
+          grep -q "'+'+gain+' '+unit+' / 10초'" _site/game.js
+          grep -q "if(value>0)floating" _site/game.js
           node --check _site/game.js
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
