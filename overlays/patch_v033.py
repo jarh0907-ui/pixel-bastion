@@ -25,8 +25,8 @@ s=s[:m.start(1)]+json.dumps(d,ensure_ascii=False,separators=(',',':'))+s[m.end(1
 s=s.replace('PIXEL BASTION v0.3.2','PIXEL BASTION v0.3.3')
 s=s.replace('const NPC_DRAW_HEIGHT = 60','const NPC_DRAW_HEIGHT = 90')
 s=s.replace('const npcImages = {male:{},female:{}};','const npcImages = Object.fromEntries(Object.keys(NPC_SPECS).map(name=>[name,{}]));')
-s=s.replace("const spec=NPC_SPECS[v.gender]||NPC_SPECS.male;","const spec=NPC_SPECS[v.variant||v.gender]||NPC_SPECS.male;")
-s=s.replace("const imgs=npcImages[v.gender]||npcImages.male;","const imgs=npcImages[v.variant||v.gender]||npcImages.male;")
+s=s.replace("const spec=NPC_SPECS[v.gender]||NPC_SPECS.male;","const visualVariant=(v.variant==='male2'&&!npcImages.male2.walk)?'male':(v.variant||v.gender); const spec=NPC_SPECS[visualVariant]||NPC_SPECS.male;")
+s=s.replace("const imgs=npcImages[v.gender]||npcImages.male;","const imgs=npcImages[visualVariant]||npcImages.male;")
 s=s.replace("const action=v.gender==='female'&&pose==='greeting_bow'?'greeting_wave':pose;","const action=pose==='greeting_bow'&&!spec.emotes.poses.includes('greeting_bow')?'greeting_wave':pose;")
 s=s.replace("const gender=starting?'male':counts.female<counts.male?'female':counts.male<counts.female?'male':(Math.random()<.5?'male':'female');","""const gender=starting?'male':counts.female<counts.male?'female':counts.male<counts.female?'male':(Math.random()<.5?'male':'female');
     const male1=state.villagers.filter(v=>v.variant==='male'||(!v.variant&&v.gender==='male')).length;
