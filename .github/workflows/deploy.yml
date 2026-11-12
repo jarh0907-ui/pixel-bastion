@@ -87,6 +87,8 @@ jobs:
           test -s _site/assets/npc/NPC_FEMALE2/female_02_emotes_6poses.png
           test -s _site/assets/npc/NPC_MALE3/male3_walk_4dir_4frames.png
           test -s _site/assets/npc/NPC_MALE3/male3_emotes_6poses.png
+          test -s _site/assets/npc/NPC_FEMALE3/female3_walk_4dir_4frames.png
+          test -s _site/assets/npc/NPC_FEMALE3/female3_emotes_6poses.png
           grep -q "PIXEL BASTION v0.3.6" _site/game.js
           grep -q "NPC_INTERACTIONS_ENABLED = false" _site/game.js
           grep -q "NPC_AUTO_CHAT_ENABLED = false" _site/game.js
