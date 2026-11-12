@@ -21,11 +21,20 @@ jobs:
       - name: Assemble game site
         shell: bash
         run: |
+          set -euo pipefail
           mkdir -p _site
-          if [ -f "PIXEL_BASTION_v0.3.2_FEMALE_NPC_GITHUB.zip" ]; then
+          if [ -s "PIXEL_BASTION_v0.3.2_FEMALE_NPC_GITHUB.zip" ]; then
+            echo "Assembling from single complete package"
             unzip -q "PIXEL_BASTION_v0.3.2_FEMALE_NPC_GITHUB.zip" -d _site
+          elif [ -s "PIXEL_BASTION_v0.3.2_PART1_GAME_MALE.zip" ] && [ -s "PIXEL_BASTION_v0.3.2_PART2_FEMALE.zip" ]; then
+            echo "Assembling from two split packages"
+            unzip -q "PIXEL_BASTION_v0.3.2_PART1_GAME_MALE.zip" -d _site
+            unzip -oq "PIXEL_BASTION_v0.3.2_PART2_FEMALE.zip" -d _site
+          elif [ -s "index.html" ] && [ -s "game.js" ] && [ -s "style.css" ] && [ -d "assets" ]; then
+            echo "Assembling from extracted files"
+            cp -a index.html game.js style.css assets _site/
           else
-            echo "::error::Initial game ZIP missing. Upload PIXEL_BASTION_v0.3.2_FEMALE_NPC_GITHUB.zip to repository root once."
+            echo "::error::Missing complete game. Upload BOTH PIXEL_BASTION_v0.3.2_PART1_GAME_MALE.zip and PIXEL_BASTION_v0.3.2_PART2_FEMALE.zip to repository root, or upload a complete game package."
             exit 1
           fi
           if [ -d overlays ]; then
