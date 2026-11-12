@@ -24,27 +24,41 @@ jobs:
           set -euo pipefail
           mkdir -p _site
           if [ -s "PIXEL_BASTION_v0.3.2_FEMALE_NPC_GITHUB.zip" ]; then
-            echo "Assembling from single complete package"
+            echo "Complete ZIP found"
             unzip -q "PIXEL_BASTION_v0.3.2_FEMALE_NPC_GITHUB.zip" -d _site
           elif [ -s "PIXEL_BASTION_v0.3.2_PART1_GAME_MALE.zip" ] && [ -s "PIXEL_BASTION_v0.3.2_PART2_FEMALE.zip" ]; then
-            echo "Assembling from two split packages"
+            echo "Two split ZIPs found"
             unzip -q "PIXEL_BASTION_v0.3.2_PART1_GAME_MALE.zip" -d _site
             unzip -oq "PIXEL_BASTION_v0.3.2_PART2_FEMALE.zip" -d _site
           elif [ -s "index.html" ] && [ -s "game.js" ] && [ -s "style.css" ] && [ -d "assets" ]; then
-            echo "Assembling from extracted files"
+            echo "Extracted site root found"
             cp -a index.html game.js style.css assets _site/
           else
-            echo "::error::Missing complete game. Upload BOTH PIXEL_BASTION_v0.3.2_PART1_GAME_MALE.zip and PIXEL_BASTION_v0.3.2_PART2_FEMALE.zip to repository root, or upload a complete game package."
+            echo "::error::Game files missing. Please upload both PART1 and PART2 ZIPs."
             exit 1
           fi
           if [ -d overlays ]; then
             cp -a overlays/. _site/
           fi
-          test -s _site/index.html
-          test -s _site/game.js
-          test -s _site/style.css
-          test -s _site/assets/npc/NPC_MALE/male_walk_4dir_3frames.png
-          test -s _site/assets/npc/NPC_FEMALE/female_walk_4dir_4frames.png
+          echo "Extracted top-level files:"
+          ls -la _site | head -40
+          echo "NPC file sample:"
+          find _site -type f -iname "*walk*" | head -20 || true
+          if [ ! -s "_site/index.html" ]; then
+            located="$(find _site -type f -name index.html -print -quit)"
+            if [ -n "$located" ]; then
+              dir="$(dirname "$located")"
+              echo "Flattening game root from $dir"
+              cp -a "$dir"/. _site/
+            fi
+          fi
+          for f in             index.html             game.js             style.css             assets/npc/NPC_MALE/male_walk_4dir_3frames.png             assets/npc/NPC_FEMALE/female_walk_4dir_4frames.png
+          do
+            if [ ! -s "_site/$f" ]; then
+              echo "::error::Missing required site file: $f"
+              exit 1
+            fi
+          done
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
