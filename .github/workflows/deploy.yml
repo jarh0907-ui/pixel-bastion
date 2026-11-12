@@ -56,6 +56,9 @@ jobs:
           if [ -f overlays/patch_v033.py ]; then
             python3 overlays/patch_v033.py _site
           fi
+          if [ -f overlays/patch_v034.py ]; then
+            python3 overlays/patch_v034.py _site
+          fi
           # Decode optional directly committed source sprites (newer variants).
           if [ -d overlays/npc-assets ]; then
             mkdir -p _site/assets/npc/NPC_MALE2
@@ -74,6 +77,10 @@ jobs:
           # Fail deployment if resident sprite files or generated game code are broken.
           test -s _site/assets/npc/NPC_MALE2/male2_walk_4dir_4frames.png
           test -s _site/assets/npc/NPC_MALE2/male2_emotes_6poses.png
+          test -s _site/assets/npc/NPC_FEMALE2/female_02_walk_4dir_4frames.png
+          test -s _site/assets/npc/NPC_FEMALE2/female_02_emotes_6poses.png
+          grep -q "NPC_INTERACTIONS_ENABLED = false" _site/game.js
+          grep -q "NPC_AUTO_CHAT_ENABLED = false" _site/game.js
           node --check _site/game.js
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
