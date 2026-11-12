@@ -39,6 +39,7 @@ rep("const free=state.villagers.some(v=>!v.jobBuildingId);", "const free=state.v
 rep("<div><span>건설 비용·면적</span><strong>시험용 무료·3×3</strong></div>", "<div><span>건설 비용·면적</span><strong>시험용 무료·3×2</strong></div><div><span>미할당 주민</span><strong>${free}명</strong></div>")
 rep("${(!remaining||!free||state.paused)?'disabled':''}", "${(!remaining||state.paused)?'disabled':''}")
 rep("    buildEconomy:(kind,x,y)=>buildEconomy(kind,x,y),", "    buildEconomy:(kind,x,y)=>buildEconomy(kind,x,y),\n    economyFootprint:()=>({width:ECON_WIDTH_TILES,height:ECON_HEIGHT_TILES}),\n    availableWorkers:()=>state.villagers.filter(v=>!v.jobBuildingId).length,")
+rep("c.tx>=tx-1&&c.tx<tx+ECON_SIZE+1&&c.ty>=ty-1&&c.ty<ty+ECON_SIZE+1", "c.tx>=tx-1&&c.tx<tx+ECON_WIDTH_TILES+1&&c.ty>=ty-1&&c.ty<ty+ECON_HEIGHT_TILES+1")
 assert 'ECON_SIZE' not in s, 'Old 3x3 economy dimension remains'
 assert 'const ECON_WORKERS_LV1 = 1' in s
 assert 'NPC_INTERACTIONS_ENABLED = false' in s
