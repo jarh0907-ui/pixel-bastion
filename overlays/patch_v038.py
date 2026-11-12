@@ -30,7 +30,7 @@ rep("ctx.fillRect(b.x-54,b.y-121,108,20)", "ctx.fillRect(b.x-59,b.y-146,118,20)"
 rep("b.x,b.y-106", "b.x,b.y-131")
 rep("const h=snapHouse(state.hover.x,state.hover.y);\n      const valid=(isEconomy?", "const h=isEconomy?snapEconomy(state.hover.x,state.hover.y):snapHouse(state.hover.x,state.hover.y);\n      const valid=(isEconomy?")
 rep("ctx.fillRect(h.tx*TILE,h.ty*TILE,120,120);", "ctx.fillRect(h.tx*TILE,h.ty*TILE,isEconomy?ECON_WIDTH_TILES*TILE:120,isEconomy?ECON_HEIGHT_TILES*TILE:120);")
-rep("ctx.strokeRect(h.tx*TILE,h.ty*TILE,120,120);", "ctx.strokeRect(h.tx*TILE,h.ty*TILE,isEconomy?ECON_WIDTH_TILES*TILE:120,isEconomy?ECON_HEIGHT_TILES*TILE:120);")
+rep("ctx.strokeStyle=valid?'#e6eaba':'#f59c87';ctx.lineWidth=3;\n      ctx.strokeRect(h.tx*TILE,h.ty*TILE,120,120);", "ctx.strokeStyle=valid?'#e6eaba':'#f59c87';ctx.lineWidth=3;\n      ctx.strokeRect(h.tx*TILE,h.ty*TILE,isEconomy?ECON_WIDTH_TILES*TILE:120,isEconomy?ECON_HEIGHT_TILES*TILE:120);")
 rep("if(img)ctx.drawImage(img,h.x-72,h.y-111,144,146);", "if(img)ctx.drawImage(img,h.x-84,h.y-129,168,172);")
 rep("if(Math.abs(w.x-b.x)<75&&w.y>b.y-118&&w.y<b.y+55)", "if(Math.abs(w.x-b.x)<86&&w.y>b.y-151&&w.y<b.y+55)")
 rep("    const candidates=state.villagers.filter(v=>!v.jobBuildingId && v.partnerId===null)\n      .sort((a,c)=>distance(a.x,a.y,b.x,b.y)-distance(c.x,c.y,b.x,b.y));", "    const candidates=state.villagers.filter(v=>!v.jobBuildingId && v.partnerId===null)\n      .sort((a,c)=>distance(a.x,a.y,b.x,b.y)-distance(c.x,c.y,b.x,b.y));\n    if(!candidates.length){toast('인구 부족: 배치할 주민이 없습니다.');return false;}")
