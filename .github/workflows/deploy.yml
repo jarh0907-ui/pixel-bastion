@@ -71,6 +71,10 @@ jobs:
               exit 1
             fi
           done
+          # Fail deployment if resident sprite files or generated game code are broken.
+          test -s _site/assets/npc/NPC_MALE2/male2_walk_4dir_4frames.png
+          test -s _site/assets/npc/NPC_MALE2/male2_emotes_6poses.png
+          node --check _site/game.js
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
