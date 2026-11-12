@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply PIXEL BASTION v0.3.3 on top of the original v0.3.2 archive."""
+"""Apply PIXEL BASTION v0.3.3 using unmodified original PNG sheets."""
 import json, re, sys
 from pathlib import Path
 site=Path(sys.argv[1])
@@ -12,14 +12,14 @@ d=json.loads(m.group(1))
 d['male']['emotes']['bounds']=[[21,23,150,212],[20,23,148,212],[15,23,140,212],[31,24,158,212],[35,45,150,212],[31,14,170,212],[39,24,162,212]]
 d['female']['emotes']['bounds']=[[54,34,182,220],[45,34,169,220],[23,34,143,220],[51,34,180,220],[24,36,145,220],[30,36,177,220]]
 d['male2']={
- 'walk':{'url':'assets/npc/NPC_MALE2/male2_walk_4dir_4frames.webp','frameW':144,'frameH':144,'frames':4,'bounds':[
+ 'walk':{'url':'assets/npc/NPC_MALE2/male2_walk_4dir_4frames.png','frameW':144,'frameH':144,'frames':4,'bounds':[
  [[28,16,115,137],[28,16,116,137],[28,16,115,137],[28,16,115,137]],
  [[31,23,112,137],[29,23,114,137],[30,23,113,137],[31,23,113,137]],
  [[29,21,114,137],[30,21,113,137],[29,25,115,137],[29,21,115,137]],
  [[30,22,114,137],[30,22,114,137],[30,22,113,137],[29,22,115,137]]]},
- 'emotes':{'url':'assets/npc/NPC_MALE2/male2_emotes_6poses.webp','frameW':220,'frameH':232,'poses':['surprised','happy','thinking','greeting_wave','talking_01','talking_02'],'bounds':[
+ 'emotes':{'url':'assets/npc/NPC_MALE2/male2_emotes_6poses.png','frameW':220,'frameH':232,'poses':['surprised','happy','thinking','greeting_wave','talking_01','talking_02'],'bounds':[
  [28,20,191,225],[34,23,186,225],[27,15,193,225],[30,33,190,225],[25,16,195,225],[44,37,175,225]]},
- 'idle':{'url':'assets/npc/NPC_MALE2/male2_walk_4dir_4frames.webp','frameW':144,'frameH':144,'bounds':[28,16,115,137]}
+ 'idle':{'url':'assets/npc/NPC_MALE2/male2_walk_4dir_4frames.png','frameW':144,'frameH':144,'bounds':[28,16,115,137]}
 }
 s=s[:m.start(1)]+json.dumps(d,ensure_ascii=False,separators=(',',':'))+s[m.end(1):]
 s=s.replace('PIXEL BASTION v0.3.2','PIXEL BASTION v0.3.3')
@@ -33,7 +33,7 @@ s=s.replace("const gender=starting?'male':counts.female<counts.male?'female':cou
     const male2=state.villagers.filter(v=>v.variant==='male2').length;
     const variant=gender==='female'?'female':starting?'male':male2<male1?'male2':male1<male2?'male':(Math.random()<.5?'male':'male2');""")
 s=s.replace("type:'villager',gender,homeId:home.id,","type:'villager',gender,variant,homeId:home.id,")
-s=s.replace("\${t.gender==='female'?'여성':'남성'} 주민","\${t.variant==='male2'?'남성 주민 2':t.gender==='female'?'여성 주민':'남성 주민 1'}")
+s=s.replace("${t.gender==='female'?'여성':'남성'} 주민","\${t.variant==='male2'?'남성 주민 2':t.gender==='female'?'여성 주민':'남성 주민 1'}")
 s=s.replace("\${t.gender==='male'?'<button type=\"button\" data-pose=\"greeting_bow\">🙇 숙여인사</button>':''}","\${(t.variant||t.gender)==='male'?'<button type=\"button\" data-pose=\"greeting_bow\">🙇 숙여인사</button>':''}")
 s=s.replace("villagers:state.villagers.map(v=>({id:v.id,gender:v.gender,","villagers:state.villagers.map(v=>({id:v.id,gender:v.gender,variant:v.variant||v.gender,")
 s=s.replace('v.y-87','v.y-117').replace('v.y-71','v.y-101')
