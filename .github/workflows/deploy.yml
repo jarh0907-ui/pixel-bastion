@@ -59,6 +59,9 @@ jobs:
           if [ -f overlays/patch_v034.py ]; then
             python3 overlays/patch_v034.py _site
           fi
+          if [ -f overlays/patch_v035.py ]; then
+            python3 overlays/patch_v035.py _site
+          fi
           # Decode optional directly committed source sprites (newer variants).
           if [ -d overlays/npc-assets ]; then
             mkdir -p _site/assets/npc/NPC_MALE2
@@ -79,6 +82,9 @@ jobs:
           test -s _site/assets/npc/NPC_MALE2/male2_emotes_6poses.png
           test -s _site/assets/npc/NPC_FEMALE2/female_02_walk_4dir_4frames.png
           test -s _site/assets/npc/NPC_FEMALE2/female_02_emotes_6poses.png
+          test -s _site/assets/npc/NPC_MALE3/male3_walk_4dir_4frames.png
+          test -s _site/assets/npc/NPC_MALE3/male3_emotes_6poses.png
+          grep -q "PIXEL BASTION v0.3.5" _site/game.js
           grep -q "NPC_INTERACTIONS_ENABLED = false" _site/game.js
           grep -q "NPC_AUTO_CHAT_ENABLED = false" _site/game.js
           node --check _site/game.js
