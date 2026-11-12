@@ -28,13 +28,13 @@ s=s.replace('const npcImages = {male:{},female:{}};','const npcImages = Object.f
 s=s.replace("const spec=NPC_SPECS[v.gender]||NPC_SPECS.male;","const visualVariant=(v.variant==='male2'&&!npcImages.male2.walk)?'male':(v.variant||v.gender); const spec=NPC_SPECS[visualVariant]||NPC_SPECS.male;")
 s=s.replace("const imgs=npcImages[v.gender]||npcImages.male;","const imgs=npcImages[visualVariant]||npcImages.male;")
 s=s.replace("const action=v.gender==='female'&&pose==='greeting_bow'?'greeting_wave':pose;","const action=pose==='greeting_bow'&&!spec.emotes.poses.includes('greeting_bow')?'greeting_wave':pose;")
-s=s.replace("const gender=starting?'male':counts.female<counts.male?'female':counts.male<counts.female?'male':state.villagers.some(v=>v.variant==='male2')?(Math.random()<.5?'male':'female'):'male';","""const gender=starting?'male':counts.female<counts.male?'female':counts.male<counts.female?'male':(Math.random()<.5?'male':'female');
+s=s.replace("const gender=starting?'male':counts.female<counts.male?'female':counts.male<counts.female?'male':(Math.random()<.5?'male':'female');","""const gender=starting?'male':counts.female<counts.male?'female':counts.male<counts.female?'male':state.villagers.some(v=>v.variant==='male2')?(Math.random()<.5?'male':'female'):'male';
     const male1=state.villagers.filter(v=>v.variant==='male'||(!v.variant&&v.gender==='male')).length;
     const male2=state.villagers.filter(v=>v.variant==='male2').length;
     const variant=gender==='female'?'female':starting?'male':male2<male1?'male2':male1<male2?'male':(Math.random()<.5?'male':'male2');""")
 s=s.replace("type:'villager',gender,homeId:home.id,","type:'villager',gender,variant,homeId:home.id,")
-s=s.replace("${t.gender==='female'?'여성':'남성'} 주민","\${t.variant==='male2'?'남성 주민 2':t.gender==='female'?'여성 주민':'남성 주민 1'}")
-s=s.replace("\${t.gender==='male'?'<button type=\"button\" data-pose=\"greeting_bow\">🙇 숙여인사</button>':''}","\${(t.variant||t.gender)==='male'?'<button type=\"button\" data-pose=\"greeting_bow\">🙇 숙여인사</button>':''}")
+s=s.replace("${t.gender==='female'?'여성':'남성'} 주민","${t.variant==='male2'?'남성 주민 2':t.gender==='female'?'여성 주민':'남성 주민 1'}")
+s=s.replace("${t.gender==='male'?'<button type=\"button\" data-pose=\"greeting_bow\">🙇 숙여인사</button>':''}","${(t.variant||t.gender)==='male'?'<button type=\"button\" data-pose=\"greeting_bow\">🙇 숙여인사</button>':''}")
 s=s.replace("villagers:state.villagers.map(v=>({id:v.id,gender:v.gender,","villagers:state.villagers.map(v=>({id:v.id,gender:v.gender,variant:v.variant||v.gender,")
 s=s.replace('v.y-87','v.y-117').replace('v.y-71','v.y-101')
 s=s.replace('w.y>v.y-72','w.y>v.y-104').replace('Math.abs(w.x-v.x)<27','Math.abs(w.x-v.x)<40')
