@@ -86,6 +86,9 @@ jobs:
           if [ -f overlays/patch_v043.py ]; then
             python3 overlays/patch_v043.py _site
           fi
+          if [ -f overlays/patch_v044.py ]; then
+            python3 overlays/patch_v044.py _site
+          fi
           # Decode optional directly committed source sprites (newer variants).
           if [ -d overlays/npc-assets ]; then
             mkdir -p _site/assets/npc/NPC_MALE2
@@ -113,7 +116,7 @@ jobs:
           test -s _site/assets/reserve/mine_entrance_source.png
           test -s _site/assets/reserve/farm_plot_source.png
           test -s _site/assets/reserve/miner_worker_source.png
-          grep -q "PIXEL BASTION v0.4.3" _site/game.js
+          grep -q "PIXEL BASTION v0.4.4" _site/game.js
           grep -q "ECON_PRODUCTION_INTERVAL = 10" _site/game.js
           grep -q "ECON_FOOD_INTERVAL = 60" _site/game.js
           grep -q "ECON_WIDTH_TILES = 3, ECON_HEIGHT_TILES = 2" _site/game.js
@@ -162,6 +165,15 @@ jobs:
             grep -q "data-tower=\"$item\"" _site/index.html
           done
           grep -q 'tower-palette' _site/style.css
+          grep -q "function trainKnight(f)" _site/game.js
+          # Upgrade inspector v0.4.4: selected towers show three routes; real upgrade action retained.
+          grep -q 'id="towerCatalogBtn"' _site/index.html
+          grep -q "originalInspectorRender=updateInspector" _site/game.js
+          grep -q 'class="btd-upgrade-panel"' _site/game.js
+          grep -q 'data-action="upgrade"' _site/game.js
+          grep -q 'route-locked' _site/game.js
+          grep -q '.sidebar.inspecting .tower-palette' _site/style.css
+          grep -q "function upgradeTower()" _site/game.js
           grep -q "function trainKnight(f)" _site/game.js
           node --check _site/game.js
           touch _site/.nojekyll
