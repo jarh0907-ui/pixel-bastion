@@ -156,8 +156,9 @@ helpers=r'''  function knightSpawnTile(f){
 s=s.replace(marker,helpers+marker,1)
 
 # In combat, time-scaled tick() runs only when not paused. Training also respects 2x speed.
-rep('    stepTowers(dt);stepShots(dt);',
-    '    stepTowers(dt);stepShots(dt);\n    stepKnightTraining(dt);stepKnightUnits(dt);')
+# Training continues during peaceful periods between waves; the combat tick() is active-wave-only.
+rep('      stepEconomy(dt);',
+    '      stepEconomy(dt);\n      stepKnightTraining(dt);\n      stepKnightUnits(dt);')
 
 # Insert knight into established world depth sorting and minimap without affecting NPCs.
 world_anchor="    for(const f of state.facilityBuildings)if(f.x>b.left-170&&f.x<b.right+170&&f.y>b.top-230&&f.y<b.bottom+140)all.push({y:f.y+48,kind:'facility',obj:f});"
