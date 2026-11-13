@@ -1,8 +1,8 @@
 {
   "schema": "pixel-bastion/resource-catalog/v1",
-  "description": "유저 제공 원본 도트 리소스 보관. 아직 게임 기능, 건설 버튼, AI 행동, 자원 생산에 연결하지 않음.",
-  "status": "library-only",
-  "version": "resource-batch-2026-11-12",
+  "description": "게임에서 사용되는 주민/경제/군사 건물 이미지 리소스 및 아직 잠긴 기능 목록",
+  "status": "mixed-active-and-locked",
+  "version": "v0.4.0",
   "entries": [
     {
       "id": "worker_miner_01",
@@ -12,8 +12,8 @@
       "pixelWidth": 1448,
       "pixelHeight": 1086,
       "animation": "source sprite sheet (4 directions × 4 frames; slicing not configured)",
-      "gameplayEnabled": false,
-      "jobRules": null
+      "gameplayEnabled": true,
+      "jobRules": "Mine assigned worker enters and stays hidden until release; no independent unit spawning"
     },
     {
       "id": "building_mine_01",
@@ -22,9 +22,15 @@
       "source": "assets/reserve/mine_entrance_source.png",
       "pixelWidth": 1274,
       "pixelHeight": 1234,
-      "gameplayEnabled": false,
-      "footprintTiles": null,
-      "productionRules": null
+      "gameplayEnabled": true,
+      "footprintTiles": {
+        "x": 3,
+        "y": 2
+      },
+      "productionRules": {
+        "workerCapacityLv1": 1,
+        "goldPer10sPerWorker": 5
+      }
     },
     {
       "id": "building_farm_01",
@@ -33,9 +39,47 @@
       "source": "assets/reserve/farm_plot_source.png",
       "pixelWidth": 1275,
       "pixelHeight": 1234,
-      "gameplayEnabled": false,
-      "footprintTiles": null,
-      "productionRules": null
+      "gameplayEnabled": true,
+      "footprintTiles": {
+        "x": 3,
+        "y": 2
+      },
+      "productionRules": {
+        "workerCapacityLv1": 1,
+        "foodPer10sPerWorker": 10
+      }
+    },
+    {
+      "id": "building_training_ground_01",
+      "label": "훈련장",
+      "category": "military-building",
+      "source": "assets/reserve/training_ground_01.webp",
+      "footprintTiles": {
+        "x": 3,
+        "y": 2
+      },
+      "unitTier": "하급",
+      "gameplayEnabled": true,
+      "unitTrainingEnabled": false,
+      "upgradeEnabled": false,
+      "constructionCost": "temporary-free",
+      "notes": "User art, exterior white matte made transparent, lossless WebP pixel asset"
+    },
+    {
+      "id": "building_officer_academy_01",
+      "label": "사관학교",
+      "category": "military-building",
+      "source": "assets/reserve/officer_academy_01.webp",
+      "footprintTiles": {
+        "x": 3,
+        "y": 3
+      },
+      "unitTier": "중급",
+      "gameplayEnabled": true,
+      "unitTrainingEnabled": false,
+      "upgradeEnabled": false,
+      "constructionCost": "temporary-free",
+      "notes": "User transparent PNG converted to lossless WebP pixel asset"
     }
   ]
 }
