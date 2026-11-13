@@ -157,6 +157,11 @@ s=s.replace(marker,helpers+marker,1)
 
 # In combat, time-scaled tick() runs only when not paused. Training also respects 2x speed.
 # Training continues during peaceful periods between waves; the combat tick() is active-wave-only.
+# World animation (including working mines/farms) must tick between combat waves too.
+rep('    state.elapsed+=dt;\n    if(state.spawnQueue.length){',
+    '    if(state.spawnQueue.length){')
+rep('      const dt=realDt*state.speed;\n      if(state.active)tick(dt);',
+    '      const dt=realDt*state.speed;\n      state.elapsed+=dt;\n      if(state.active)tick(dt);')
 rep('      stepEconomy(dt);',
     '      stepEconomy(dt);\n      stepKnightTraining(dt);\n      stepKnightUnits(dt);')
 
