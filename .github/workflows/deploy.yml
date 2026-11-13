@@ -80,6 +80,9 @@ jobs:
           if [ -f overlays/patch_v041.py ]; then
             python3 overlays/patch_v041.py _site
           fi
+          if [ -f overlays/patch_v042.py ]; then
+            python3 overlays/patch_v042.py _site
+          fi
           # Decode optional directly committed source sprites (newer variants).
           if [ -d overlays/npc-assets ]; then
             mkdir -p _site/assets/npc/NPC_MALE2
@@ -107,7 +110,7 @@ jobs:
           test -s _site/assets/reserve/mine_entrance_source.png
           test -s _site/assets/reserve/farm_plot_source.png
           test -s _site/assets/reserve/miner_worker_source.png
-          grep -q "PIXEL BASTION v0.4.1" _site/game.js
+          grep -q "PIXEL BASTION v0.4.2" _site/game.js
           grep -q "ECON_PRODUCTION_INTERVAL = 10" _site/game.js
           grep -q "ECON_FOOD_INTERVAL = 60" _site/game.js
           grep -q "ECON_WIDTH_TILES = 3, ECON_HEIGHT_TILES = 2" _site/game.js
@@ -141,6 +144,11 @@ jobs:
           grep -q "function stepKnightTraining(dt)" _site/game.js
           grep -q "function drawKnight(u)" _site/game.js
           grep -q "🔒 유닛 훈련 잠금" _site/game.js
+          # UI-only v0.4.2 regression checks: the layout is wider and focus-mode is reversible.
+          grep -q 'id="stageExpandBtn"' _site/index.html
+          grep -q "classList.toggle('play-focus')" _site/game.js
+          grep -q 'width:min(1880px,calc(100% - 24px))' _site/style.css
+          grep -q '.app.play-focus .sidebar{display:none}' _site/style.css
           node --check _site/game.js
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
