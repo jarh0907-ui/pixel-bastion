@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PIXEL BASTION — 전투 실험장</title>
+<style>
+:root{color-scheme:dark;--bg:#111c25;--panel:#1d3036;--line:#405858;--gold:#edcb7f;--sub:#a8bcb6;--green:#8bd2a7;--red:#efaa96}
+*{box-sizing:border-box}body{background:radial-gradient(circle at 50% -30%,#31443b,#121c23 70%);color:#f1e9d5;font-family:system-ui,-apple-system,"Malgun Gothic",sans-serif;margin:0}
+main{max-width:1430px;margin:auto;padding:18px 16px 36px}header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}h1{margin:0;color:var(--gold);font-size:26px;letter-spacing:.5px}h1 span{color:#fff}h2{font-size:16px;margin:0;color:var(--gold)}.kicker{font-size:11px;letter-spacing:2px;color:var(--sub)}p{line-height:1.55}small,.muted{color:var(--sub)}.topnote{font-size:12px;background:#304139;padding:8px 12px;border:1px solid #627459;border-radius:6px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 295px;gap:12px;margin-top:14px}.arena-wrap{background:#1b2e34;border:2px solid #688178;box-shadow:0 8px 30px #07101666;overflow:hidden;border-radius:8px}.arena-top{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:10px 14px;background:#1b3135;border-bottom:1px solid #536756;font-size:13px}#arena{width:100%;height:auto;display:block;aspect-ratio:16/10;cursor:crosshair;image-rendering:pixelated}.arena-bottom{display:flex;gap:12px;flex-wrap:wrap;background:#16282d;padding:9px 12px;font-size:12px}.statnum{font-weight:900;color:#ffe1a3}.side{display:flex;flex-direction:column;gap:12px}.panel{background:#1e3338;border:1px solid #536a67;border-radius:8px;padding:14px;box-shadow:0 3px 10px #07101833}.panel p{font-size:12px;margin:9px 0 12px;color:var(--sub)}label{display:flex;justify-content:space-between;align-items:center;margin:12px 0;font-size:13px;gap:8px}label input{width:76px;border:1px solid #627c70;background:#15282d;border-radius:4px;color:#fff;font:800 15px system-ui;padding:7px;text-align:center}.buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.buttons button,button{border:1px solid #80967c;border-radius:6px;cursor:pointer;font-weight:800;padding:10px 8px;background:#314845;color:#f4e8c4;transition:background .15s}.buttons button:hover,button:hover{background:#4e6559}button.primary{background:#d5b46f;color:#192729;border-color:#f1d58d}button.primary:hover{background:#eed08b}button:disabled{opacity:.47;cursor:not-allowed}.buttons .wide{grid-column:1/-1}.status{padding:10px 12px;background:#14262c;border:1px solid #526a66;border-radius:6px;font-weight:800;font-size:13px;color:#e6d69b}.rowstats{display:grid;grid-template-columns:1fr repeat(5,auto);gap:5px;font-size:11px;margin-top:12px;align-items:center;overflow:auto}.rowstats>*{text-align:center}.rowstats>*:first-child{text-align:left}.rowstats strong{color:#f6e8c3}.cell{padding:7px 4px;border-bottom:1px solid #4e615d;min-width:25px}.events{height:180px;overflow:auto;font-size:11px;line-height:1.55;background:#11242b;border:1px solid #465b59;border-radius:4px;padding:8px}.events .bad{color:#e8ad9c}.events .good{color:#b5e7a4}.pill{display:inline-block;color:#1a2a23;background:#c8d896;font-size:11px;padding:3px 8px;border-radius:30px;font-weight:800}footer{font-size:12px;color:var(--sub);margin-top:14px}footer b{color:#efca7d}
+@media(max-width:1030px){.layout{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr}.side .panel:last-child{grid-column:1/-1}}
+@media(max-width:600px){main{padding:12px 8px 25px}h1{font-size:21px}.layout{gap:8px}.side{display:flex}.arena-top{font-size:11px;padding:8px}#arena{aspect-ratio:16/10}.panel{padding:11px}}
+</style>
+</head>
+<body>
+<main>
+<header><div><div class="kicker">PIXEL BASTION · COMBAT LAB 0.2 · WEB</div><h1>⚔ <span>전투 실험장</span></h1></div><div class="topnote">독립 테스트 · 본편 저장/밸런스 변경 없음</div></header>
+<p class="muted" style="font-size:13px;margin:9px 0 14px">기사와 궁수를 직접 소환해 고블린과 싸우게 하는 전투 검증판이야. 각 유닛의 모션 크기와 발 위치를 통일했어. <b>능력치·방어력 공식은 테스트용</b>이며 아직 확정된 밸런스가 아니야.</p>
+<div class="layout">
+<section class="arena-wrap" aria-label="전투 테스트 화면">
+<div class="arena-top"><b>🏰 아군 <span style="color:#8de2bd">VS</span> 고블린 👹</b><span id="statusText">시작 버튼을 누르세요</span></div>
+<canvas id="arena" width="1024" height="640" aria-label="기사와 궁수가 고블린을 상대로 싸우는 전투 시뮬레이션"></canvas>
+<div class="arena-bottom"><span>🛡 아군 <b class="statnum" id="allyCount">0</b></span><span>👹 적 <b class="statnum" id="enemyCount">0</b></span><span>🏹 발사 <b class="statnum" id="arrowCount">0</b></span><span>⚔ 적중 <b class="statnum" id="hitCount">0</b></span><span>⌛ 전투 <b class="statnum" id="seconds">0.0</b>초</span></div>
+</section>
+<aside class="side">
+<section class="panel"><h2>전투 편성</h2><p>배치를 바꾸고 전투 시작을 누르면 새로운 대결이 진행돼.</p>
+<label>⚔ 기사 수<input aria-label="기사 수" id="knights" type="number" min="0" max="15" value="2"></label>
+<label>🏹 궁수 수<input aria-label="궁수 수" id="archers" type="number" min="0" max="15" value="2"></label>
+<label>👹 고블린 수<input aria-label="고블린 수" id="goblins" type="number" min="1" max="25" value="6"></label>
+<div class="buttons"><button class="primary wide" id="startBtn">▶ 전투 시작 / 재시작</button><button id="pauseBtn" disabled>Ⅱ 일시정지</button><button id="speedBtn">x1 속도</button><button id="reinforceBtn" class="wide" disabled>👹 고블린 1명 추가</button></div><div class="status" style="margin-top:10px" id="resultText">대기 중</div></section>
+<section class="panel"><h2>전투 능력치 <span class="pill">임시값</span></h2>
+<div class="rowstats" aria-label="전투 유닛 능력치">
+<strong>유닛</strong><strong>HP</strong><strong>ATK</strong><strong>DEF</strong><strong>AS</strong><strong>MS</strong>
+<span class="cell">기사</span><span class="cell">32</span><span class="cell">4</span><span class="cell">2</span><span class="cell">1.0</span><span class="cell">65</span>
+<span class="cell">궁수</span><span class="cell">20</span><span class="cell">3</span><span class="cell">0</span><span class="cell">0.8</span><span class="cell">55</span>
+<span class="cell">고블린</span><span class="cell">14</span><span class="cell">2</span><span class="cell">1</span><span class="cell">1.1</span><span class="cell">70</span>
+</div><p>AS=초당 공격 횟수 · MS=초당 이동 픽셀<br>피해량 = max(1, ATK−DEF), 면역 시 0. 궁수 사거리 250, 기사는 37, 고블린은 32.</p></section>
+<section class="panel"><h2>전투 기록</h2><div id="events" class="events" aria-live="polite">테스트 시작을 기다리고 있습니다.</div></section>
+</aside>
+</div>
+<footer><b>테스트 범위:</b> 적 탐색, 이동, 공격속도, 방어력, 피격·사망 애니메이션, 궁수 화살 투사체. 아군 부활·성 방어·본편 자원 소비·타워 업그레이드 연동은 테스트에 포함하지 않았어. 궁수의 대기 모션은 걷기 기준 자세에서 가져오고, 피격 모션은 실제 피격에만 사용해. 궁수 전용 사망 원본은 미제공이라 마지막 피격 자세의 페이드를 임시 사용해.</footer>
+</main>
+<script defer src="combat.js"></script>
+</body>
+</html>
