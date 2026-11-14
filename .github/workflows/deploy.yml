@@ -45,7 +45,9 @@ jobs:
           echo "NPC file sample:"
           find _site -type f -iname "*walk*" | head -20 || true
           if [ ! -s "_site/index.html" ]; then
-            located="$(find _site -type f -name index.html -print -quit)"
+            # Ignore independently hosted sub-sites such as combat-lab.
+            # Their index.html is not the main game's entry point.
+            located="$(find _site -type f -name index.html ! -path '_site/combat-lab/*' -print -quit)"
             if [ -n "$located" ]; then
               dir="$(dirname "$located")"
               echo "Flattening game root from $dir"
